@@ -5,46 +5,42 @@
     <title>Cosmic Highway Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        canvas {
-            border: 1px solid #000;
-            display: block;
-            margin: 0 auto;
-            background: linear-gradient(to bottom, #000033, #000066);
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-        }
-        #controls {
-            text-align: center;
-            margin-top: 10px;
-            color: white;
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-        }
-        button {
-            padding: 10px;
-            font-size: 16px;
-            background: #4a4a8a;
-            color: white;
-            border: 2px solid #6666cc;
-            border-radius: 5px;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        body {
-            background-color: #000;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
             width: 100%;
-            height: 100vh;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             position: relative;
-            overflow: hidden;
         }
+
+        canvas {
+            border: 1px solid #000;
+            display: block;
+            background: linear-gradient(to bottom, #000033, #000066);
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         #score-display {
             position: fixed;
             top: 10px;
@@ -56,10 +52,9 @@
             padding: 10px;
             border-radius: 5px;
             z-index: 100;
+            font-size: max(16px, 2vmin);
         }
-        #ship-icon {
-            display: none; /* Hide the SVG element but keep it in DOM for reference */
-        }
+
         #game-over {
             position: fixed;
             top: 50%;
@@ -73,21 +68,34 @@
             text-align: center;
             display: none;
             z-index: 1000;
+            width: 90%;
+            max-width: 400px;
         }
 
         #game-over h2 {
             color: #ff4444;
             margin-bottom: 20px;
+            font-size: max(24px, 3vmin);
         }
 
         #game-over button {
             margin-top: 20px;
-            padding: 10px 20px;
+            padding: 15px 30px;
+            font-size: max(18px, 2.5vmin);
+            background: #4a4a8a;
+            color: white;
+            border: 2px solid #6666cc;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .score-item {
-            margin: 10px 0;
-            font-size: 18px;
+            margin: 15px 0;
+            font-size: max(18px, 2.5vmin);
+        }
+
+        #ship-icon {
+            display: none;
         }
     </style>
 </head>
@@ -410,11 +418,59 @@ window.addEventListener('keydown', function(e) {
     }
 });
 
+// After getting canvas context
+function resizeCanvas() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Set canvas size while maintaining aspect ratio
+    if (windowWidth / windowHeight > 2/3) {
+        // Window is wider than game ratio
+        canvas.style.height = '100vh';
+        canvas.style.width = 'auto';
+    } else {
+        // Window is taller than game ratio
+        canvas.style.width = '100vw';
+        canvas.style.height = 'auto';
+    }
 
-// if tap on screen, move bird up
+    // Keep game resolution constant
+    canvas.width = 400;
+    canvas.height = 600;
+}
+
+// Call resize on load and window resize
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Update touch controls to use canvas bounds
+function getTouchPosition(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    return {
+        x: (e.touches[0].clientX - rect.left) * scaleX,
+        y: (e.touches[0].clientY - rect.top) * scaleY
+    };
+}
+
+// Update touch event listener
 document.addEventListener('touchstart', function(e) {
-    bird.velocity = bird.lift;
-});
+    e.preventDefault();
+    if (gameActive) {
+        bird.velocity = bird.lift;
+    }
+}, { passive: false });
+
+// Prevent default touch behaviors
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
+
+document.addEventListener('touchend', function(e) {
+    e.preventDefault();
+}, { passive: false });
 
 function shootBullet() {
     if (gameState.useBullet()) {
@@ -477,7 +533,7 @@ function animate() {
     drawBird();
     updateBird();
 
-    if (frameCount % 60 === 0) {
+    if (frameCount % 100 === 0) {
         pipes.push(new Pipe());
     }
 
