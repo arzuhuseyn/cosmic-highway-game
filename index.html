@@ -107,29 +107,24 @@
     </style>
 </head>
 <body>
-    <svg width="100" height="100" version="1.1" id="ship-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.999 511.999" xml:space="preserve" transform="rotate(90)">
-        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-        <g id="SVGRepo_iconCarrier">
-          <!-- Main Body -->
-          <path style="fill:#FFA726; stroke:#000; stroke-width:3;" d="M310.641,387.709c-0.816-2.159-2.885-3.587-5.192-3.587H206.55c-2.309,0-4.375,1.428-5.194,3.587 c-4.157,10.99-6.266,22.565-6.266,34.405c0,38.873,23.042,73.976,58.701,89.428c0.705,0.305,1.457,0.457,2.208,0.457 c0.752,0,1.504-0.152,2.208-0.457c35.66-15.452,58.701-50.554,58.701-89.428C316.909,410.27,314.8,398.695,310.641,387.709z"/>
-          <!-- Upper Section -->
-          <path style="fill:#FFF176; stroke:#000; stroke-width:3;" d="M292.446,380.352c-1.052-1.136-2.528-1.782-4.076-1.782h-64.742c-1.548,0-3.025,0.645-4.076,1.782 c-1.049,1.135-1.579,2.659-1.459,4.202c1.681,21.554,15.743,40.738,35.824,48.871c0.668,0.271,1.376,0.406,2.084,0.406 c0.708,0,1.416-0.135,2.084-0.406c20.08-8.133,34.14-27.316,35.822-48.871C294.024,383.01,293.495,381.487,292.446,380.352z"/>
+    <svg id="ship-icon" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Spaceship Body -->
+        <ellipse cx="50" cy="50" rx="30" ry="18" fill="#FFC107" stroke="#000" stroke-width="3"/>
       
-          <!-- Side Fins -->
-          <path style="fill:#3B8DDB; stroke:#000; stroke-width:3;" d="M420.78,396.97v-51.543c0-22.857-11.084-37.559-14.882-41.925l-76.866-83.428v152.156l80.955,37.293 C413.007,410.695,420.78,412.236,420.78,396.97z"/>
-          <path style="fill:#3B8DDB; stroke:#000; stroke-width:3;" d="M91.219,396.97v-51.543c0-22.857,11.084-37.559,14.882-41.925l76.866-83.428v152.156l-80.953,37.293 C98.992,410.695,91.219,412.236,91.219,396.97z"/>
+        <!-- Cockpit Window -->
+        <circle cx="60" cy="45" r="7" fill="#FFFFFF" stroke="#000" stroke-width="3"/>
       
-          <!-- Rocket Tip -->
-          <path style="fill:#90C8EC; stroke:#000; stroke-width:3;" d="M255.999,103.143c-4.599,0-8.328-3.729-8.328-8.328V8.328 c0-4.599,3.729-8.328,8.328-8.328s8.328,3.729,8.328,8.328v86.487C264.327,99.414,260.598,103.143,255.999,103.143z"/>
-          <!-- Main Body Shell -->
-          <path style="fill:#FFECC0; stroke:#000; stroke-width:3;" d="M263.525,49.363h-15.052c-37.406,0-67.728,30.323-67.728,67.727v255.14 c0,10.247,8.306,18.555,18.557,18.555h113.395c10.248,0,18.557-8.308,18.557-18.555V170.738v-27.205v-26.444 C331.253,79.685,300.931,49.363,263.525,49.363z"/>
-          <!-- Lower Section -->
-          <path style="fill:#FFD54F; stroke:#000; stroke-width:3;" d="M180.746,345.426v26.803c0,10.247,8.306,18.555,18.557,18.555h113.395 c10.248,0,18.557-8.308,18.557-18.555v-26.803H180.746z"/>
+        <!-- Wings -->
+        <polygon points="25,50 5,35 15,50 5,65" fill="#FFA726" stroke="#000" stroke-width="3"/>
       
-          <!-- Circular Window -->
-          <circle style="fill:#3A5D74; stroke:#000; stroke-width:3;" cx="256" cy="269.137" r="32.988"/>
-        </g>
+        <!-- Exhaust Flame -->
+        <polygon points="18,56 0,50 18,44" fill="#FF5722" stroke="#000" stroke-width="2"/>
+        <polygon points="22,54 8,50 22,46" fill="#FFC107" stroke="#000" stroke-width="2"/>
+      
+        <!-- Motion Lines -->
+        <line x1="78" y1="40" x2="90" y2="35" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line x1="78" y1="50" x2="92" y2="50" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line x1="78" y1="60" x2="90" y2="65" stroke="#000" stroke-width="3" stroke-linecap="round"/>
       </svg>
       
       
