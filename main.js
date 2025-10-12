@@ -49,25 +49,39 @@ shipImage.onload = function() {
     // Don't start the game yet - wait for start button
 };
 
-// Start button event listener
-document.getElementById('start-button').addEventListener('click', () => {
+// Start button event listeners (both click and touch)
+function startGame() {
     if (game) {
         // Hide start screen
         const startScreen = document.getElementById('start-screen');
         startScreen.classList.add('hidden');
         
-        // Hide score display during start screen
+        // Show score display
         document.getElementById('score-display').style.display = 'block';
         
         // Start the game
         game.start();
     }
+}
+
+const startButton = document.getElementById('start-button');
+startButton.addEventListener('click', startGame);
+startButton.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent double-firing with click event
+    startGame();
 });
 
-// Add event listener for restart button
-document.getElementById('restart-button').addEventListener('click', () => {
+// Restart button event listeners (both click and touch)
+function restartGame() {
     if (game) {
         game.reset();
     }
+}
+
+const restartButton = document.getElementById('restart-button');
+restartButton.addEventListener('click', restartGame);
+restartButton.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent double-firing with click event
+    restartGame();
 });
 

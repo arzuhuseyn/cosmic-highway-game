@@ -112,6 +112,10 @@ canvas {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 2px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #game-over button:hover {
@@ -242,6 +246,10 @@ canvas {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 2px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #start-button:hover {
