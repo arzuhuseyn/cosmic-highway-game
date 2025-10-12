@@ -1,0 +1,325 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* HTML & Body Setup */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #2a1a4a 100%);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Game Canvas */
+canvas {
+    border: 2px solid #6666cc;
+    box-shadow: 0 0 30px rgba(102, 102, 204, 0.4);
+    display: block;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a1a2a 100%);
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Score Display */
+#score-display {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    text-align: right;
+    background: linear-gradient(135deg, rgba(26, 26, 58, 0.9), rgba(42, 26, 74, 0.9));
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid #6666cc;
+    box-shadow: 0 0 20px rgba(102, 102, 204, 0.5), inset 0 0 20px rgba(102, 102, 204, 0.1);
+    z-index: 100;
+    font-size: max(16px, 2vmin);
+    backdrop-filter: blur(10px);
+    display: none; /* Hidden until game starts */
+}
+
+#score-display > div {
+    margin: 5px 0;
+    text-shadow: 0 0 10px rgba(102, 204, 255, 0.5);
+}
+
+#score-display span {
+    color: #66ccff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #66ccff;
+}
+
+/* Game Over Screen */
+#game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(26, 26, 58, 0.95));
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #6666cc;
+    box-shadow: 0 0 40px rgba(102, 102, 204, 0.6), inset 0 0 30px rgba(102, 102, 204, 0.1);
+    color: white;
+    text-align: center;
+    display: none;
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease-in;
+}
+
+#game-over h2 {
+    color: #ff66cc;
+    margin-bottom: 20px;
+    font-size: max(28px, 4vmin);
+    text-shadow: 0 0 20px #ff66cc, 0 0 40px #ff3399;
+    font-family: 'Arial Black', Arial, sans-serif;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+#game-over button {
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: max(18px, 2.5vmin);
+    font-weight: bold;
+    background: linear-gradient(135deg, #6666cc 0%, #9966ff 100%);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(102, 102, 204, 0.5);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#game-over button:hover {
+    background: linear-gradient(135deg, #7777dd 0%, #aa77ff 100%);
+    box-shadow: 0 0 40px rgba(153, 102, 255, 0.8);
+    transform: scale(1.05);
+}
+
+#game-over button:active {
+    transform: scale(0.95);
+}
+
+/* Score Item */
+.score-item {
+    margin: 15px 0;
+    font-size: max(18px, 2.5vmin);
+    color: #ccccff;
+}
+
+.score-item span {
+    color: #66ccff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #66ccff;
+}
+
+/* Countdown Timer */
+#countdown {
+    font-size: max(16px, 2vmin);
+    margin-top: 20px;
+    color: #ff66cc;
+    text-shadow: 0 0 10px #ff66cc;
+}
+
+/* Start Screen */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.5s ease-in;
+}
+
+#start-screen.hidden {
+    display: none;
+}
+
+.start-content {
+    text-align: center;
+    color: white;
+    max-width: 90%;
+    animation: slideUp 0.8s ease-out;
+    padding: 40px 20px;
+}
+
+.game-title {
+    margin-bottom: 20px;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow: 0 0 20px rgba(102, 102, 204, 0.8);
+}
+
+.game-title .cosmic {
+    display: block;
+    font-size: max(48px, 8vmin);
+    color: #66ccff;
+    text-shadow: 0 0 30px #66ccff, 0 0 60px #3399ff;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.game-title .highway {
+    display: block;
+    font-size: max(56px, 9vmin);
+    color: #ff66cc;
+    text-shadow: 0 0 30px #ff66cc, 0 0 60px #ff3399;
+    animation: glow 2s ease-in-out infinite alternate-reverse;
+    margin-top: 10px;
+}
+
+.ship-animation {
+    font-size: max(64px, 10vmin);
+    margin: 30px 0;
+    animation: float 3s ease-in-out infinite;
+    display: inline-block;
+}
+
+.tagline {
+    font-size: max(18px, 2.2vmin);
+    color: #ccccff;
+    margin: 20px 0;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(204, 204, 255, 0.5);
+}
+
+.game-features {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.feature {
+    background: rgba(102, 102, 204, 0.2);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #6666cc;
+    font-size: max(14px, 2vmin);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 1s ease-in;
+}
+
+#start-button {
+    padding: 20px 50px;
+    font-size: max(24px, 3.5vmin);
+    font-weight: bold;
+    background: linear-gradient(135deg, #6666cc 0%, #9966ff 100%);
+    color: white;
+    border: 3px solid #ffffff;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 30px 0;
+    box-shadow: 0 0 30px rgba(102, 102, 204, 0.5);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#start-button:hover {
+    background: linear-gradient(135deg, #7777dd 0%, #aa77ff 100%);
+    box-shadow: 0 0 50px rgba(153, 102, 255, 0.8);
+    transform: scale(1.05);
+}
+
+#start-button:active {
+    transform: scale(0.95);
+}
+
+#start-button.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.instructions {
+    margin-top: 30px;
+    font-size: max(14px, 2vmin);
+    color: #aaaacc;
+    line-height: 1.6;
+}
+
+.instructions p {
+    margin: 5px 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    }
+    to {
+        text-shadow: 0 0 30px currentColor, 0 0 60px currentColor, 0 0 80px currentColor;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(102, 102, 204, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(153, 102, 255, 1);
+    }
+}
+

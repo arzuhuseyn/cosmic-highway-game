@@ -4,134 +4,74 @@
     <meta charset="UTF-8">
     <title>Cosmic Highway Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        canvas {
-            border: 1px solid #000;
-            display: block;
-            background: linear-gradient(to bottom, #000033, #000066);
-            width: 100vw;
-            height: 100vh;
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #score-display {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: right;
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 100;
-            font-size: max(16px, 2vmin);
-        }
-
-        #game-over {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #6666cc;
-            color: white;
-            text-align: center;
-            display: none;
-            z-index: 1000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        #game-over h2 {
-            color: #ff4444;
-            margin-bottom: 20px;
-            font-size: max(24px, 3vmin);
-        }
-
-        #game-over button {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: max(18px, 2.5vmin);
-            background: #4a4a8a;
-            color: white;
-            border: 2px solid #6666cc;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .score-item {
-            margin: 15px 0;
-            font-size: max(18px, 2.5vmin);
-        }
-
-        #ship-icon {
-            display: none;
-        }
-
-        /* Add styles for the countdown timer */
-        #countdown {
-            font-size: max(18px, 2.5vmin);
-            margin-top: 20px;
-            color: #ff4444;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <svg id="ship-icon" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-        <!-- Spaceship Body -->
-        <ellipse cx="50" cy="50" rx="30" ry="18" fill="#FFC107" stroke="#000" stroke-width="3"/>
-      
-        <!-- Cockpit Window -->
-        <circle cx="60" cy="45" r="7" fill="#FFFFFF" stroke="#000" stroke-width="3"/>
-      
-        <!-- Wings -->
-        <polygon points="25,50 5,35 15,50 5,65" fill="#FFA726" stroke="#000" stroke-width="3"/>
-      
-        <!-- Exhaust Flame -->
-        <polygon points="18,56 0,50 18,44" fill="#FF5722" stroke="#000" stroke-width="2"/>
-        <polygon points="22,54 8,50 22,46" fill="#FFC107" stroke="#000" stroke-width="2"/>
-      
-        <!-- Motion Lines -->
-        <line x1="78" y1="40" x2="90" y2="35" stroke="#000" stroke-width="3" stroke-linecap="round"/>
-        <line x1="78" y1="50" x2="92" y2="50" stroke="#000" stroke-width="3" stroke-linecap="round"/>
-        <line x1="78" y1="60" x2="90" y2="65" stroke="#000" stroke-width="3" stroke-linecap="round"/>
-      </svg>
-      
-      
 <canvas id="gameCanvas" width="400" height="600"></canvas>
-{% comment %} <div id="controls">
-    <button id="resetButton">Reset</button>
-</div> {% endcomment %}
+
+<!-- Start Screen -->
+<div id="start-screen">
+    <div class="start-bg-overlay"></div>
+    <div class="start-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="start-content">
+        <div class="title-wrapper">
+            <h1 class="game-title">
+                <span class="cosmic">COSMIC</span>
+                <span class="highway">HIGHWAY</span>
+            </h1>
+            <div class="title-underline"></div>
+        </div>
+        
+        <div class="rocket-container">
+            <div class="rocket-glow"></div>
+            <img src="icon/rocket.svg" alt="Rocket" class="rocket-ship">
+            <div class="rocket-trail"></div>
+            <div class="rocket-trail trail-2"></div>
+            <div class="rocket-trail trail-3"></div>
+        </div>
+        
+        <p class="tagline">
+            <span class="tagline-text">Navigate the cosmic void</span>
+            <span class="tagline-text">Destroy the barriers</span>
+            <span class="tagline-text">Survive the journey</span>
+        </p>
+        
+        <button id="start-button" class="pulse">
+            <span class="button-icon">▶</span>
+            <span>START MISSION</span>
+        </button>
+        
+        <div class="game-features">
+            <div class="feature">
+                <div class="feature-icon">🎮</div>
+                <div class="feature-text">Arrow Keys</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💥</div>
+                <div class="feature-text">Auto-Fire</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-text">5 Hits = Kill</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <div class="instruction-item">⚠️ Avoid obstacles and enemy fire</div>
+            <div class="instruction-item">🔫 Pass barriers to collect bullets</div>
+        </div>
+    </div>
+</div>
+
 <div id="score-display">
     <div>Current Score: <span id="current-score">0</span></div>
     <div>High Score: <span id="high-score">0</span></div>
@@ -146,510 +86,13 @@
     <button id="restart-button">Play Again</button>
 </div>
 
+<!-- Game Scripts -->
 <script src="gameState.js"></script>
-<script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-// Create stars background
-const stars = Array(100).fill().map(() => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2
-}));
-
-// Modified bird (now spaceship) properties
-let bird = { 
-    x: 50, 
-    y: 150, 
-    width: 150, 
-    height: 30, 
-    gravity: 0, 
-    lift: -4, 
-    downForce: 4, 
-    velocity: 0.1
-};
-let pipes = [];
-let bullets = [];
-let frameCount = 0;
-let score = 0;
-let gameActive = true;
-
-// Create an image from the SVG
-const shipImage = new Image();
-const svgElement = document.getElementById('ship-icon');
-const serializer = new XMLSerializer();
-const svgString = serializer.serializeToString(svgElement);
-const svgBlob = new Blob([svgString], {type: 'image/svg+xml'});
-const url = URL.createObjectURL(svgBlob);
-shipImage.src = url;
-
-function drawBird() {
-    ctx.save();
-    // Center the rotation around the ship's center
-    ctx.translate(bird.x + bird.width/2, bird.y + bird.height/2);
-    
-    // Add slight tilt based on velocity
-    const tilt = Math.min(Math.max(bird.velocity * 4, -30), 30);
-    ctx.rotate(tilt * Math.PI / 280);
-    
-    // Draw the ship image
-    ctx.drawImage(
-        shipImage, 
-        -bird.width/2, // Center the image
-        -bird.height/2,
-        bird.width,
-        bird.height
-    );
-    
-    // Add engine glow effect
-    const glow = ctx.createRadialGradient(
-        -bird.width/2, 0, 0,
-        -bird.width/2, 0, bird.width/2
-    );
-    glow.addColorStop(0, 'rgba(255, 102, 0, 0.8)');
-    glow.addColorStop(1, 'rgba(255, 102, 0, 0)');
-    
-    ctx.fillStyle = glow;
-    ctx.fillRect(-bird.width/2 - 20, -bird.height/2, 20, bird.height);
-    
-    ctx.restore();
-}
-
-function updateBird() {
-    bird.velocity += 0.12; 
-    bird.y += bird.velocity;
-
-    if (bird.y + bird.height > canvas.height || bird.y < 0) {
-        showGameOver();
-        return;
-    }
-}
-
-function Pipe() {
-    this.id = Date.now() + Math.random(); // Unique ID for each pipe
-    this.top = Math.floor(Math.random() * 200) + 50;
-    this.bottom = canvas.height - (this.top + 200);
-    this.x = canvas.width;
-    this.width = 30;
-    this.speed = 1.2;
-    this.hasGun = Math.random() < 0.4; // 40% chance of having a gun
-    this.lastShot = 0;
-    this.bulletSpeed = 2;
-    this.enemyBullets = [];
-    this.passed = false;
-    this.isDestroying = false;
-    this.destructionProgress = 0;
-    this.destructionSpeed = 0.1;
-
-    this.draw = function() {
-        // Don't draw if fully destroyed
-        if (this.destructionProgress >= 1) return;
-
-        // Create destruction effect
-        if (this.isDestroying) {
-            const segments = 8;
-            const segmentHeight = (this.top / segments);
-            const bottomSegmentHeight = (this.bottom / segments);
-            
-            // Draw top pipe segments with spread effect
-            for (let i = 0; i < segments; i++) {
-                const spread = (this.destructionProgress * 50) * (i / segments);
-                const alpha = 1 - this.destructionProgress;
-                
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                
-                // Top pipe segment
-                ctx.fillStyle = '#4a4a8a';
-                ctx.fillRect(
-                    this.x + spread, 
-                    i * segmentHeight, 
-                    this.width, 
-                    segmentHeight
-                );
-                
-                // Bottom pipe segment
-                ctx.fillRect(
-                    this.x - spread,
-                    canvas.height - this.bottom + (i * bottomSegmentHeight),
-                    this.width,
-                    bottomSegmentHeight
-                );
-                
-                ctx.restore();
-            }
-            
-            this.destructionProgress += this.destructionSpeed;
-            return;
-        }
-
-        // Space barrier effect
-        const gradient = ctx.createLinearGradient(this.x, 0, this.x + this.width, 0);
-        gradient.addColorStop(0, '#4a4a8a');
-        gradient.addColorStop(0.5, '#8a4a8a');
-        gradient.addColorStop(1, '#4a4a8a');
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(this.x, 0, this.width, this.top);
-        ctx.fillRect(this.x, canvas.height - this.bottom, this.width, this.bottom);
-
-        // Add glow effect
-        ctx.strokeStyle = '#6666cc';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(this.x, 0, this.width, this.top);
-        ctx.strokeRect(this.x, canvas.height - this.bottom, this.width, this.bottom);
-
-        // Draw machine gun if pipe has one
-        if (this.hasGun) {
-            ctx.fillStyle = '#ff4444';
-            // Draw gun on top pipe
-            ctx.beginPath();
-            ctx.moveTo(this.x + this.width/2, this.top);
-            ctx.lineTo(this.x + this.width/2 - 10, this.top + 20);
-            ctx.lineTo(this.x + this.width/2 + 10, this.top + 20);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        // Draw enemy bullets
-        ctx.fillStyle = '#ff0000';
-        this.enemyBullets.forEach(bullet => {
-            ctx.beginPath();
-            ctx.arc(bullet.x, bullet.y, 3, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        // Add hit counter display
-        const hits = gameState.getObstacleHits(this.id);
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.fillText(`${hits}/5`, this.x + this.width/2 - 10, 
-            canvas.height - this.bottom - 10);
-    }
-
-    this.update = function() {
-        // Don't move if being destroyed
-        if (this.isDestroying) return;
-        
-        this.x -= this.speed;
-
-        // Update enemy bullets
-        for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
-            this.enemyBullets[i].x -= this.bulletSpeed;
-            this.enemyBullets[i].y += Math.sin(this.enemyBullets[i].x / 50) * 2; // Wavy bullet pattern
-
-            // Remove bullets that are off screen
-            if (this.enemyBullets[i].x < 0) {
-                this.enemyBullets.splice(i, 1);
-            }
-        }
-
-        // Shoot if has gun
-        if (this.hasGun && frameCount - this.lastShot > 120) { // Shoot every 120 frames
-            this.enemyBullets.push({
-                x: this.x + this.width/2,
-                y: this.top + 20
-            });
-            this.lastShot = frameCount;
-        }
-    }
-}
-
-function Bullet() {
-    this.x = bird.x + bird.width;
-    this.y = bird.y + bird.height / 2;
-    this.width = 5;
-    this.height = 2;
-    this.speed = 4;
-
-    this.draw = function() {
-        ctx.fillStyle = '#ff3333';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Add glow effect
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#ff6666';
-    }
-
-    this.update = function() {
-        this.x += this.speed;
-    }
-}
-
-function drawScore() {
-    ctx.fillStyle = 'white';
-    ctx.font = '20px Arial';
-    ctx.fillText("Score: " + score, 10, 25);
-}
-
-function resetGame() {
-    window.location.reload();
-    hideGameOver();
-    gameActive = true;
-    gameState.resetGame();
-    
-    // Reset bird to initial state
-    bird.y = 150;
-    bird.velocity = 0.1; // Set to initial velocity
-    bird.x = 50; // Make sure x position is reset too
-    
-    // Clear game objects
-    pipes = [];
-    bullets = [];
-    frameCount = 0;
-    
-    // Reset star positions
-    stars.forEach(star => {
-        star.x = Math.random() * canvas.width;
-        star.y = Math.random() * canvas.height;
-    });
-    
-    // Update score display
-    updateScore();
-    
-    // Restart animation if it's not running
-    if (!gameActive) {
-        animate();
-    }
-}
-
-// Add event listener for reset button
-// document.getElementById('resetButton').addEventListener('click', resetGame);
-
-window.addEventListener('keydown', function(e) {
-    if (e.code === 'ArrowUp') {
-        bird.velocity = bird.lift;
-    } else if (e.code === 'ArrowDown') {
-        bird.velocity = bird.downForce;
-    }
-});
-
-// After getting canvas context
-function resizeCanvas() {
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    // Set canvas size while maintaining aspect ratio
-    if (windowWidth / windowHeight > 2/3) {
-        // Window is wider than game ratio
-        canvas.style.height = '100vh';
-        canvas.style.width = 'auto';
-    } else {
-        // Window is taller than game ratio
-        canvas.style.width = '100vw';
-        canvas.style.height = 'auto';
-    }
-
-    // Keep game resolution constant
-    canvas.width = 400;
-    canvas.height = 600;
-}
-
-// Call resize on load and window resize
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-// Update touch controls to use canvas bounds
-function getTouchPosition(e) {
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    
-    return {
-        x: (e.touches[0].clientX - rect.left) * scaleX,
-        y: (e.touches[0].clientY - rect.top) * scaleY
-    };
-}
-
-// Update touch event listener
-document.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    if (gameActive) {
-        bird.velocity = bird.lift;
-    }
-}, { passive: false });
-
-// Prevent default touch behaviors
-document.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-}, { passive: false });
-
-document.addEventListener('touchend', function(e) {
-    e.preventDefault();
-}, { passive: false });
-
-function shootBullet() {
-    if (gameState.useBullet()) {
-        bullets.push(new Bullet());
-        updateScore();
-    }
-}
-
-// Set up automatic shooting with bullet limit
-setInterval(shootBullet, 100);
-
-function drawStars() {
-    ctx.fillStyle = 'white';
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Move stars to create parallax effect
-        star.x -= 0.3;
-        if (star.x < 0) star.x = canvas.width;
-    });
-}
-
-function checkCollision(bird, pipe) {
-    return (bird.x + bird.width > pipe.x &&
-            bird.x < pipe.x + pipe.width &&
-            (bird.y < pipe.top || 
-             bird.y + bird.height > canvas.height - pipe.bottom));
-}
-
-function updateScore() {
-    document.getElementById('current-score').textContent = gameState.currentScore;
-    document.getElementById('high-score').textContent = gameState.highScore;
-    document.getElementById('bullet-count').textContent = gameState.bullets;
-}
-
-function showGameOver() {
-    const gameOverScreen = document.getElementById('game-over');
-    document.getElementById('final-score').textContent = gameState.currentScore;
-    document.getElementById('end-high-score').textContent = gameState.highScore;
-    gameOverScreen.style.display = 'block';
-    gameActive = false;
-
-    // Start countdown for game restart
-    startCountdown();
-}
-
-function startCountdown() {
-    let countdown = 5;
-    const countdownElement = document.getElementById('countdown-timer');
-    countdownElement.textContent = countdown;
-
-    const countdownInterval = setInterval(() => {
-        countdown--;
-        countdownElement.textContent = countdown;
-
-        if (countdown <= 0) {
-            clearInterval(countdownInterval);
-            resetGame();
-        }
-    }, 1000);
-}
-
-function hideGameOver() {
-    document.getElementById('game-over').style.display = 'none';
-}
-
-function animate() {
-    if (!gameActive) {
-        return;
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    drawStars();
-    ctx.shadowBlur = 0;
-    
-    drawBird();
-    updateBird();
-
-    if (frameCount % 100 === 0) {
-        pipes.push(new Pipe());
-    }
-
-    // Check for collisions with pipes and enemy bullets
-    for (let pipe of pipes) {
-        if (checkCollision(bird, pipe)) {
-            showGameOver();
-            return;
-        }
-
-        // Check collision with enemy bullets
-        for (let bullet of pipe.enemyBullets) {
-            if (checkBulletCollision(bird, bullet)) {
-                showGameOver();
-                return;
-            }
-        }
-    }
-
-    for (let i = bullets.length - 1; i >= 0; i--) {
-        bullets[i].draw();
-        bullets[i].update();
-        
-        for (let j = pipes.length - 1; j >= 0; j--) {
-            if (
-                bullets[i].x < pipes[j].x + pipes[j].width &&
-                bullets[i].x + bullets[i].width > pipes[j].x &&
-                (bullets[i].y < pipes[j].top || bullets[i].y > canvas.height - pipes[j].bottom)
-            ) {
-                const hits = gameState.recordHit(pipes[j].id);
-                bullets.splice(i, 1);
-                if (hits >= 5) {
-                    pipes[j].isDestroying = true; // Start destruction animation
-                    gameState.currentScore++;
-                    updateScore();
-                }
-                break;
-            }
-        }
-    }
-
-    for (let i = pipes.length - 1; i >= 0; i--) {
-        pipes[i].draw();
-        pipes[i].update();
-
-        // Check if ship passed the pipe without destroying it
-        if (pipes[i].x + pipes[i].width < bird.x && !pipes[i].passed) {
-            pipes[i].passed = true;
-            const hits = gameState.getObstacleHits(pipes[i].id);
-            if (hits > 0) {
-                gameState.addBullets(hits*4);
-            }
-            else {
-                gameState.addBullets(20);
-            }
-            updateScore();
-        }
-
-        // Remove pipes that are either off screen or fully destroyed
-        if (pipes[i].x + pipes[i].width < 0 || pipes[i].destructionProgress >= 1) {
-            pipes.splice(i, 1);
-        }
-    }
-
-    frameCount++;
-    requestAnimationFrame(animate);
-}
-
-// Initialize score display
-updateScore();
-
-// Start animation
-animate();
-
-// Add bullet collision detection
-function checkBulletCollision(bird, bullet) {
-    return (bullet.x > bird.x && 
-            bullet.x < bird.x + bird.width &&
-            bullet.y > bird.y &&
-            bullet.y < bird.y + bird.height);
-}
-
-// Update bird dimensions to better match the SVG proportions
-bird.width = 50;
-bird.height = 30;
-
-// Add event listener for restart button
-document.getElementById('restart-button').addEventListener('click', resetGame);
-</script>
+<script src="entities/Ship.js"></script>
+<script src="entities/Obstacle.js"></script>
+<script src="entities/Bullet.js"></script>
+<script src="renderer.js"></script>
+<script src="game.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
