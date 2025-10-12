@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Cosmic Highway Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -73,9 +77,35 @@
 </div>
 
 <div id="score-display">
-    <div>Current Score: <span id="current-score">0</span></div>
-    <div>High Score: <span id="high-score">0</span></div>
-    <div>Bullets: <span id="bullet-count">100</span></div>
+    <div class="navbar-container">
+        <div class="score-item-nav">
+            <div class="score-icon">🎯</div>
+            <div class="score-details">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="current-score">0</div>
+            </div>
+        </div>
+        
+        <div class="score-divider"></div>
+        
+        <div class="score-item-nav">
+            <div class="score-icon trophy">🏆</div>
+            <div class="score-details">
+                <div class="score-label">Best</div>
+                <div class="score-value" id="high-score">0</div>
+            </div>
+        </div>
+        
+        <div class="score-divider"></div>
+        
+        <div class="score-item-nav">
+            <div class="score-icon ammo">🔫</div>
+            <div class="score-details">
+                <div class="score-label">Ammo</div>
+                <div class="score-value" id="bullet-count">100</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="game-over">

@@ -3,10 +3,16 @@ class Obstacle {
         this.id = Date.now() + Math.random(); // Unique ID
         this.canvas = canvas;
         this.gameState = gameState;
-        this.top = Math.floor(Math.random() * 200) + 50;
-        this.bottom = canvas.height - (this.top + 200);
+        
+        // Calculate obstacle dimensions as percentage of canvas height for responsiveness
+        const minTopHeight = canvas.height * 0.083; // 8.3% of canvas height (≈50px at 600px)
+        const topVariation = canvas.height * 0.333; // 33.3% of canvas height (≈200px at 600px)
+        const gapSize = canvas.height * 0.333; // 33.3% of canvas height (≈200px at 600px)
+        
+        this.top = Math.floor(Math.random() * topVariation) + minTopHeight;
+        this.bottom = canvas.height - (this.top + gapSize);
         this.x = canvas.width;
-        this.width = 30;
+        this.width = canvas.width * 0.075; // 7.5% of canvas width (≈30px at 400px)
         
         // Calculate speeds as percentage of canvas width for consistent experience across devices
         this.speed = canvas.width * 0.003; // 0.3% of canvas width ≈ 1.2px at 400px
@@ -33,11 +39,15 @@ class Obstacle {
 
     initializeParticles() {
         // Create floating energy particles
+        const particleRange = this.canvas.height * 0.167; // 16.7% of canvas height (≈100px at 600px)
+        const baseSpeed = this.canvas.height * 0.00083; // Base speed relative to canvas height
+        const maxSpeedVariation = this.canvas.height * 0.0025; // Speed variation relative to canvas height
+        
         for (let i = 0; i < 15; i++) {
             this.particles.push({
-                offsetY: Math.random() * 100,
+                offsetY: Math.random() * particleRange,
                 offsetX: Math.random() * this.width,
-                speed: 0.5 + Math.random() * 1.5,
+                speed: baseSpeed + Math.random() * maxSpeedVariation,
                 size: 1 + Math.random() * 2,
                 alpha: 0.3 + Math.random() * 0.7
             });
@@ -77,7 +87,7 @@ class Obstacle {
         if (this.hasGun && frameCount - this.lastShot > 120) { // Shoot every 120 frames
             this.enemyBullets.push({
                 x: this.x + this.width/2,
-                y: this.top + 20
+                y: this.top + (this.canvas.height * 0.033) // 3.3% of canvas height (≈20px at 600px)
             });
             this.lastShot = frameCount;
         }
@@ -125,17 +135,18 @@ class Obstacle {
     drawCrystalBarrier(ctx) {
         // Rotating crystal structures
         const numCrystals = 5;
+        const crystalSize = this.canvas.height * 0.025; // 2.5% of canvas height (≈15px at 600px)
         
         // Top barrier
         for (let i = 0; i < numCrystals; i++) {
             const y = (this.top / numCrystals) * i + (this.top / numCrystals / 2);
-            this.drawCrystal(ctx, this.x + this.width/2, y, 15, this.crystalRotation + i);
+            this.drawCrystal(ctx, this.x + this.width/2, y, crystalSize, this.crystalRotation + i);
         }
         
         // Bottom barrier
         for (let i = 0; i < numCrystals; i++) {
             const y = this.canvas.height - this.bottom + (this.bottom / numCrystals) * i + (this.bottom / numCrystals / 2);
-            this.drawCrystal(ctx, this.x + this.width/2, y, 15, -this.crystalRotation - i);
+            this.drawCrystal(ctx, this.x + this.width/2, y, crystalSize, -this.crystalRotation - i);
         }
         
         // Connection line with particles
@@ -454,12 +465,16 @@ class Obstacle {
 
     drawHitCounter(ctx) {
         const hits = this.gameState.getObstacleHits(this.id);
+        const fontSize = Math.max(10, this.canvas.height * 0.023); // 2.3% of canvas height (≈14px at 600px)
+        const horizontalOffset = fontSize * 0.857; // Proportional to font size (≈12px at 14px font)
+        const verticalOffset = fontSize * 0.714; // Proportional to font size (≈10px at 14px font)
+        
         ctx.shadowBlur = 5;
         ctx.shadowColor = '#66ccff';
         ctx.fillStyle = '#66ccff';
-        ctx.font = 'bold 14px Arial';
-        ctx.fillText(`${hits}/5`, this.x + this.width/2 - 12, 
-            this.canvas.height - this.bottom - 10);
+        ctx.font = `700 ${fontSize}px Orbitron, Exo 2, Arial, sans-serif`;
+        ctx.fillText(`${hits}/5`, this.x + this.width/2 - horizontalOffset, 
+            this.canvas.height - this.bottom - verticalOffset);
         ctx.shadowBlur = 0;
     }
 
