@@ -134,6 +134,9 @@ class Game {
     }
 
     start() {
+        // Update ship dimensions for current canvas size
+        this.ship.updateDimensions();
+        
         this.gameActive = true; // Activate the game
         this.lastFrameTime = performance.now(); // Reset frame time to avoid large delta on first frame
         this.updateScoreDisplay();
@@ -143,6 +146,9 @@ class Game {
     reset() {
         // Save high score before reset
         this.gameState.resetGame();
+        
+        // Update ship dimensions for current canvas size
+        this.ship.updateDimensions();
         
         // Reset game entities
         this.ship.reset();

@@ -4,19 +4,19 @@ class Obstacle {
         this.canvas = canvas;
         this.gameState = gameState;
         
-        // Calculate obstacle dimensions as percentage of canvas height for responsiveness
-        const minTopHeight = canvas.height * 0.083; // 8.3% of canvas height (≈50px at 600px)
-        const topVariation = canvas.height * 0.333; // 33.3% of canvas height (≈200px at 600px)
-        const gapSize = canvas.height * 0.333; // 33.3% of canvas height (≈200px at 600px)
+        // Calculate obstacle dimensions as percentage of canvas for full responsiveness
+        const minTopHeight = canvas.height * 0.083; // 8.3% of canvas height
+        const topVariation = canvas.height * 0.333; // 33.3% of canvas height
+        const gapSize = canvas.height * 0.333; // 33.3% of canvas height
         
         this.top = Math.floor(Math.random() * topVariation) + minTopHeight;
         this.bottom = canvas.height - (this.top + gapSize);
         this.x = canvas.width;
-        this.width = canvas.width * 0.075; // 7.5% of canvas width (≈30px at 400px)
+        this.width = Math.max(canvas.width * 0.075, 30); // 7.5% of canvas width, minimum 30px
         
-        // Calculate speeds as percentage of canvas width for consistent experience across devices
-        this.speed = canvas.width * 0.003; // 0.3% of canvas width ≈ 1.2px at 400px
-        this.bulletSpeed = canvas.width * 0.005; // 0.5% of canvas width ≈ 2px at 400px
+        // Calculate speeds as percentage of canvas width for consistent experience
+        this.speed = canvas.width * 0.003; // 0.3% of canvas width
+        this.bulletSpeed = canvas.width * 0.005; // 0.5% of canvas width
         
         this.hasGun = Math.random() < 0.4; // 40% chance of having a gun
         this.lastShot = frameCount;
@@ -42,13 +42,15 @@ class Obstacle {
         const particleRange = this.canvas.height * 0.167; // 16.7% of canvas height (≈100px at 600px)
         const baseSpeed = this.canvas.height * 0.00083; // Base speed relative to canvas height
         const maxSpeedVariation = this.canvas.height * 0.0025; // Speed variation relative to canvas height
+        const minSize = Math.max(this.canvas.width * 0.0025, 1); // Min particle size
+        const maxSize = Math.max(this.canvas.width * 0.0075, 3); // Max particle size
         
         for (let i = 0; i < 15; i++) {
             this.particles.push({
                 offsetY: Math.random() * particleRange,
                 offsetX: Math.random() * this.width,
                 speed: baseSpeed + Math.random() * maxSpeedVariation,
-                size: 1 + Math.random() * 2,
+                size: minSize + Math.random() * (maxSize - minSize),
                 alpha: 0.3 + Math.random() * 0.7
             });
         }

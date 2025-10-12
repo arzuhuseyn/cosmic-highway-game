@@ -1,18 +1,31 @@
 class Ship {
     constructor(x, y, shipImage, canvas) {
-        this.x = x;
-        this.y = y;
-        this.width = 50;
-        this.height = 30;
-        this.gravity = 0;
         this.shipImage = shipImage;
         this.canvas = canvas;
         
-        // Calculate speeds as percentage of canvas height for consistent experience across devices
-        this.lift = -canvas.height * 0.0067; // 0.67% of canvas height (upward) ≈ 4px at 600px
-        this.downForce = canvas.height * 0.0067; // 0.67% of canvas height (downward) ≈ 4px at 600px
-        this.velocityIncrement = canvas.height * 0.0002; // 0.02% of canvas height ≈ 0.12px at 600px
-        this.velocity = canvas.height * 0.000167; // 0.0167% of canvas height ≈ 0.1px at 600px
+        // Size as percentage of canvas
+        this.widthPercent = 0.125; // 12.5% of canvas width (≈50px at 400px)
+        this.heightPercent = 0.05; // 5% of canvas height (≈30px at 600px)
+        
+        // Position as percentage
+        this.xPercent = 0.125; // 12.5% from left (≈50px at 400px)
+        this.yPercent = 0.25; // 25% from top (≈150px at 600px)
+        
+        this.updateDimensions();
+        
+        // Calculate speeds as percentage of canvas height for consistent experience
+        this.lift = -this.canvas.height * 0.0067;
+        this.downForce = this.canvas.height * 0.0067;
+        this.velocityIncrement = this.canvas.height * 0.0002;
+        this.velocity = this.canvas.height * 0.000167;
+        this.gravity = 0;
+    }
+    
+    updateDimensions() {
+        this.width = this.canvas.width * this.widthPercent;
+        this.height = this.canvas.height * this.heightPercent;
+        this.x = this.canvas.width * this.xPercent;
+        this.y = this.canvas.height * this.yPercent;
     }
 
     update(deltaMultiplier = 1) {
@@ -29,6 +42,18 @@ class Ship {
         const tilt = Math.min(Math.max(this.velocity * 4, -30), 30);
         ctx.rotate(tilt * Math.PI / 280);
         
+        // Add subtle ambient glow around the ship
+        ctx.globalAlpha = 0.3;
+        const ambientGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, this.width * 0.8);
+        ambientGlow.addColorStop(0, 'rgba(102, 204, 255, 0.4)');
+        ambientGlow.addColorStop(0.6, 'rgba(153, 102, 255, 0.2)');
+        ambientGlow.addColorStop(1, 'rgba(102, 102, 204, 0)');
+        ctx.fillStyle = ambientGlow;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width * 0.8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        
         // Draw the ship image
         ctx.drawImage(
             this.shipImage, 
@@ -39,19 +64,16 @@ class Ship {
         );
         
         // Add engine glow effect with cyan/purple
-        const glow = ctx.createRadialGradient(
+        const engineGlow = ctx.createRadialGradient(
             -this.width/2, 0, 0,
             -this.width/2, 0, this.width/2
         );
-        glow.addColorStop(0, 'rgba(102, 204, 255, 0.9)');
-        glow.addColorStop(0.5, 'rgba(153, 102, 255, 0.6)');
-        glow.addColorStop(1, 'rgba(102, 102, 204, 0)');
+        engineGlow.addColorStop(0, 'rgba(102, 204, 255, 0.9)');
+        engineGlow.addColorStop(0.5, 'rgba(153, 102, 255, 0.6)');
+        engineGlow.addColorStop(1, 'rgba(102, 102, 204, 0)');
         
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = '#66ccff';
-        ctx.fillStyle = glow;
+        ctx.fillStyle = engineGlow;
         ctx.fillRect(-this.width/2 - 20, -this.height/2, 20, this.height);
-        ctx.shadowBlur = 0;
         
         ctx.restore();
     }
@@ -69,9 +91,13 @@ class Ship {
     }
 
     reset() {
-        this.y = 150;
-        this.velocity = this.canvas.height * 0.000167; // Reset to initial velocity
-        this.x = 50;
+        this.updateDimensions();
+        this.y = this.canvas.height * this.yPercent;
+        this.x = this.canvas.width * this.xPercent;
+        this.velocity = this.canvas.height * 0.000167;
+        this.lift = -this.canvas.height * 0.0067;
+        this.downForce = this.canvas.height * 0.0067;
+        this.velocityIncrement = this.canvas.height * 0.0002;
     }
 
     getBounds() {
