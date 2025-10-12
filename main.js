@@ -56,8 +56,9 @@ function startGame() {
         const startScreen = document.getElementById('start-screen');
         startScreen.classList.add('hidden');
         
-        // Show score display
+        // Show score display and game controls
         document.getElementById('score-display').style.display = 'block';
+        document.getElementById('game-controls').style.display = 'flex';
         
         // Start the game
         game.start();

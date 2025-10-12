@@ -12,6 +12,11 @@ html, body {
     overflow: hidden;
     background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #2a1a4a 100%);
     font-family: 'Exo 2', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* Prevent pull-to-refresh and overscroll effects on mobile */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    /* Support for devices with notches */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 body {
@@ -42,14 +47,14 @@ canvas {
 /* Score Display - Top Navbar */
 #score-display {
     position: fixed;
-    top: 0;
+    top: env(safe-area-inset-top, 0);
     left: 0;
     right: 0;
     width: 100%;
     color: #ffffff;
     font-family: 'Exo 2', sans-serif;
     background: linear-gradient(180deg, rgba(10, 10, 26, 0.95) 0%, rgba(26, 26, 58, 0.9) 100%);
-    padding: 12px 20px;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px;
     border-bottom: 2px solid rgba(102, 102, 204, 0.5);
     box-shadow: 
         0 4px 20px rgba(0, 0, 0, 0.5),
@@ -79,6 +84,8 @@ canvas {
     border: 1px solid rgba(102, 102, 204, 0.3);
     transition: all 0.3s ease;
     min-width: 120px;
+    position: relative;
+    overflow: visible;
 }
 
 .score-item-nav:hover {
@@ -100,6 +107,19 @@ canvas {
 
 .score-icon.ammo {
     animation: iconFloat 3s ease-in-out infinite 1s;
+}
+
+/* Ammo gain animation */
+.score-item-nav.ammo-gain {
+    animation: ammoGainPulse 0.6s ease-out;
+}
+
+.score-item-nav.ammo-gain .score-value {
+    animation: ammoNumberPulse 0.6s ease-out;
+}
+
+.score-item-nav.ammo-gain .score-icon {
+    animation: ammoIconSpin 0.6s ease-out;
 }
 
 .score-details {
@@ -135,24 +155,260 @@ canvas {
     );
 }
 
-/* Mobile responsive */
-@media (max-width: 600px) {
+/* Mobile responsive for navbar */
+@media (max-width: 768px) {
+    #score-display {
+        padding: 10px 15px;
+    }
+    
     .navbar-container {
-        gap: max(10px, 2vmin);
+        gap: max(12px, 2vmin);
     }
     
     .score-item-nav {
-        padding: 6px 10px;
+        padding: 6px 12px;
         gap: 8px;
-        min-width: 90px;
+        min-width: 100px;
     }
     
     .score-icon {
         font-size: max(20px, 3vmin);
     }
     
+    .score-label {
+        font-size: max(9px, 1.3vmin);
+    }
+    
+    .score-value {
+        font-size: max(16px, 2.5vmin);
+    }
+    
+    .score-divider {
+        height: 35px;
+    }
+}
+
+@media (max-width: 600px) {
+    #score-display {
+        padding: 8px 10px;
+    }
+    
+    .navbar-container {
+        gap: max(8px, 1.5vmin);
+    }
+    
+    .score-item-nav {
+        padding: 5px 8px;
+        gap: 6px;
+        min-width: 80px;
+    }
+    
+    .score-icon {
+        font-size: max(18px, 2.8vmin);
+    }
+    
+    .score-label {
+        font-size: max(8px, 1.2vmin);
+    }
+    
+    .score-value {
+        font-size: max(14px, 2.2vmin);
+    }
+    
     .score-divider {
         height: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    #score-display {
+        padding: 6px 8px;
+    }
+    
+    .navbar-container {
+        gap: 6px;
+    }
+    
+    .score-item-nav {
+        padding: 4px 6px;
+        gap: 5px;
+        min-width: 70px;
+    }
+    
+    .score-icon {
+        font-size: 16px;
+    }
+    
+    .score-label {
+        font-size: 7px;
+        letter-spacing: 0.5px;
+    }
+    
+    .score-value {
+        font-size: 13px;
+    }
+    
+    .score-divider {
+        height: 25px;
+    }
+}
+
+/* Game Controls */
+#game-controls {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    display: none; /* Hidden until game starts */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 150;
+    padding: 0 max(20px, env(safe-area-inset-left, 0px)) 0 max(20px, env(safe-area-inset-right, 0px));
+    animation: slideInUp 0.5s ease-out;
+}
+
+.control-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 140px;
+    height: 90px;
+    background: linear-gradient(135deg, rgba(102, 102, 204, 0.4), rgba(153, 102, 255, 0.3));
+    border: 3px solid rgba(102, 204, 255, 0.6);
+    border-radius: 20px;
+    color: #66ccff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+}
+
+.control-button:hover {
+    background: linear-gradient(135deg, rgba(102, 102, 204, 0.5), rgba(153, 102, 255, 0.3));
+    border-color: #66ccff;
+    box-shadow: 
+        0 6px 25px rgba(102, 204, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.control-button:active,
+.control-button.button-pressed {
+    background: linear-gradient(135deg, rgba(102, 204, 255, 0.4), rgba(153, 102, 255, 0.4));
+    border-color: #66ccff;
+    box-shadow: 
+        0 2px 10px rgba(102, 204, 255, 0.6),
+        inset 0 2px 10px rgba(102, 204, 255, 0.3);
+    transform: scale(0.95);
+    animation: buttonPulse 0.15s ease-out;
+}
+
+.control-button svg {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 5px rgba(102, 204, 255, 0.5));
+}
+
+.control-label {
+    font-family: 'Orbitron', 'Exo 2', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(102, 204, 255, 0.8);
+}
+
+/* Add wider tap area for better mobile UX */
+.control-button::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 25px;
+}
+
+/* Mobile adjustments for controls */
+@media (max-width: 768px) {
+    #game-controls {
+        bottom: 15px;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .control-button {
+        width: 130px;
+        height: 85px;
+        gap: 10px;
+    }
+    
+    .control-button svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .control-label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-controls {
+        bottom: 10px;
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+    .control-button {
+        width: 120px;
+        height: 75px;
+        gap: 10px;
+    }
+    
+    .control-button svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .control-label {
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    #game-controls {
+        bottom: 8px;
+        gap: 12px;
+        padding: 0 8px;
+    }
+    
+    .control-button {
+        width: 105px;
+        height: 65px;
+        gap: 8px;
+    }
+    
+    .control-button svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .control-label {
+        font-size: 11px;
+        letter-spacing: 1px;
     }
 }
 
@@ -239,6 +495,68 @@ canvas {
     margin-top: 20px;
     color: #ff66cc;
     text-shadow: 0 0 10px #ff66cc;
+}
+
+/* Game Over Mobile Responsive */
+@media (max-width: 600px) {
+    #game-over {
+        padding: 20px;
+        width: 95%;
+        max-width: 350px;
+    }
+    
+    #game-over h2 {
+        font-size: max(24px, 3.5vmin);
+        margin-bottom: 15px;
+    }
+    
+    .score-item {
+        margin: 12px 0;
+        font-size: max(16px, 2.2vmin);
+    }
+    
+    #game-over button {
+        padding: 12px 32px;
+        font-size: max(16px, 2.2vmin);
+        margin-top: 15px;
+        letter-spacing: 2px;
+    }
+    
+    #countdown {
+        font-size: max(14px, 1.8vmin);
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    #game-over {
+        padding: 18px;
+        width: 98%;
+        max-width: 320px;
+        border-width: 2px;
+    }
+    
+    #game-over h2 {
+        font-size: max(22px, 3.2vmin);
+        margin-bottom: 12px;
+    }
+    
+    .score-item {
+        margin: 10px 0;
+        font-size: max(14px, 2vmin);
+    }
+    
+    #game-over button {
+        padding: 10px 28px;
+        font-size: max(14px, 2vmin);
+        margin-top: 12px;
+        letter-spacing: 1.5px;
+    }
+    
+    #countdown {
+        font-size: max(13px, 1.7vmin);
+        margin-top: 12px;
+    }
 }
 
 /* Start Screen */
@@ -375,6 +693,354 @@ canvas {
     margin: 5px 0;
 }
 
+/* Start Screen Mobile Responsive */
+@media (max-width: 768px) {
+    .start-content {
+        max-width: 95%;
+        padding: 30px 15px;
+    }
+    
+    .game-title .cosmic {
+        font-size: max(40px, 7vmin);
+        letter-spacing: 4px;
+    }
+    
+    .game-title .highway {
+        font-size: max(48px, 8vmin);
+        letter-spacing: 5px;
+        margin-top: 8px;
+    }
+    
+    .rocket-container {
+        transform: scale(0.9);
+        margin: 20px 0;
+    }
+    
+    .tagline {
+        font-size: max(16px, 2vmin);
+        margin: 15px 0;
+    }
+    
+    .game-features {
+        gap: 12px;
+        margin: 20px 0;
+    }
+    
+    .feature {
+        padding: 8px 15px;
+        font-size: max(13px, 1.8vmin);
+    }
+    
+    #start-button {
+        padding: 18px 40px;
+        font-size: max(20px, 3vmin);
+        margin: 20px 0;
+        letter-spacing: 2px;
+    }
+    
+    .instructions {
+        margin-top: 20px;
+        font-size: max(13px, 1.8vmin);
+    }
+}
+
+@media (max-width: 600px) {
+    .start-content {
+        max-width: 98%;
+        padding: 25px 12px;
+    }
+    
+    .game-title {
+        margin-bottom: 15px;
+    }
+    
+    .game-title .cosmic {
+        font-size: max(32px, 6.5vmin);
+        letter-spacing: 3px;
+    }
+    
+    .game-title .highway {
+        font-size: max(40px, 7.5vmin);
+        letter-spacing: 4px;
+        margin-top: 6px;
+    }
+    
+    .rocket-container {
+        transform: scale(0.8);
+        margin: 15px 0;
+    }
+    
+    .tagline {
+        font-size: max(14px, 1.9vmin);
+        margin: 12px 0;
+    }
+    
+    .game-features {
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    .feature {
+        padding: 6px 12px;
+        font-size: max(12px, 1.7vmin);
+        border-width: 1.5px;
+    }
+    
+    .feature-icon {
+        font-size: max(18px, 2.5vmin);
+    }
+    
+    .feature-text {
+        font-size: max(11px, 1.6vmin);
+    }
+    
+    #start-button {
+        padding: 15px 35px;
+        font-size: max(18px, 2.8vmin);
+        margin: 15px 0;
+        letter-spacing: 1.5px;
+        border-width: 2px;
+    }
+    
+    .button-icon {
+        font-size: max(16px, 2.5vmin);
+    }
+    
+    .instructions {
+        margin-top: 15px;
+        font-size: max(12px, 1.7vmin);
+    }
+    
+    .instruction-item {
+        margin: 4px 0;
+        font-size: max(11px, 1.6vmin);
+    }
+}
+
+@media (max-width: 480px) {
+    .start-content {
+        max-width: 100%;
+        padding: 20px 10px;
+    }
+    
+    .game-title {
+        margin-bottom: 12px;
+    }
+    
+    .game-title .cosmic {
+        font-size: max(28px, 6vmin);
+        letter-spacing: 2px;
+    }
+    
+    .game-title .highway {
+        font-size: max(36px, 7vmin);
+        letter-spacing: 3px;
+        margin-top: 5px;
+    }
+    
+    .title-underline {
+        width: 80%;
+        margin: 8px auto;
+    }
+    
+    .rocket-container {
+        transform: scale(0.7);
+        margin: 12px 0;
+    }
+    
+    .tagline {
+        font-size: max(13px, 1.8vmin);
+        margin: 10px 0;
+    }
+    
+    .tagline-text {
+        display: block;
+        margin: 3px 0;
+        font-size: max(12px, 1.7vmin);
+    }
+    
+    .game-features {
+        gap: 8px;
+        margin: 12px 0;
+    }
+    
+    .feature {
+        padding: 5px 10px;
+        font-size: max(11px, 1.6vmin);
+        border-radius: 15px;
+        flex: 1 1 calc(33.33% - 6px);
+        min-width: 90px;
+    }
+    
+    .feature-icon {
+        font-size: max(16px, 2.3vmin);
+    }
+    
+    .feature-text {
+        font-size: max(10px, 1.5vmin);
+    }
+    
+    #start-button {
+        padding: 12px 28px;
+        font-size: max(16px, 2.5vmin);
+        margin: 12px 0;
+        letter-spacing: 1px;
+    }
+    
+    .button-icon {
+        font-size: max(14px, 2.2vmin);
+    }
+    
+    .instructions {
+        margin-top: 12px;
+        font-size: max(11px, 1.6vmin);
+    }
+    
+    .instruction-item {
+        margin: 3px 0;
+        font-size: max(10px, 1.5vmin);
+    }
+}
+
+@media (max-width: 360px) {
+    .start-content {
+        padding: 15px 8px;
+    }
+    
+    .game-title {
+        margin-bottom: 10px;
+    }
+    
+    .game-title .cosmic {
+        font-size: 24px;
+        letter-spacing: 1.5px;
+    }
+    
+    .game-title .highway {
+        font-size: 32px;
+        letter-spacing: 2px;
+        margin-top: 4px;
+    }
+    
+    .rocket-container {
+        transform: scale(0.6);
+        margin: 10px 0;
+    }
+    
+    .tagline {
+        font-size: 12px;
+        margin: 8px 0;
+    }
+    
+    .tagline-text {
+        font-size: 11px;
+        margin: 2px 0;
+    }
+    
+    .game-features {
+        gap: 6px;
+        margin: 10px 0;
+    }
+    
+    .feature {
+        padding: 4px 8px;
+        font-size: 10px;
+        border-radius: 12px;
+        min-width: 80px;
+    }
+    
+    .feature-icon {
+        font-size: 14px;
+    }
+    
+    .feature-text {
+        font-size: 9px;
+    }
+    
+    #start-button {
+        padding: 10px 24px;
+        font-size: 14px;
+        margin: 10px 0;
+        letter-spacing: 0.5px;
+    }
+    
+    .button-icon {
+        font-size: 12px;
+    }
+    
+    .instructions {
+        margin-top: 10px;
+        font-size: 10px;
+    }
+    
+    .instruction-item {
+        margin: 2px 0;
+        font-size: 9px;
+    }
+}
+
+/* Landscape mobile devices */
+@media (max-height: 600px) and (orientation: landscape) {
+    .start-content {
+        padding: 15px 10px;
+        max-width: 85%;
+    }
+    
+    .game-title {
+        margin-bottom: 8px;
+    }
+    
+    .game-title .cosmic {
+        font-size: max(24px, 5vmin);
+        letter-spacing: 2px;
+    }
+    
+    .game-title .highway {
+        font-size: max(32px, 6vmin);
+        letter-spacing: 3px;
+        margin-top: 4px;
+    }
+    
+    .rocket-container {
+        transform: scale(0.6);
+        margin: 8px 0;
+    }
+    
+    .tagline {
+        font-size: max(12px, 1.8vmin);
+        margin: 8px 0;
+    }
+    
+    .tagline-text {
+        font-size: max(11px, 1.6vmin);
+    }
+    
+    .game-features {
+        gap: 8px;
+        margin: 10px 0;
+    }
+    
+    .feature {
+        padding: 4px 10px;
+        font-size: max(11px, 1.6vmin);
+    }
+    
+    #start-button {
+        padding: 10px 30px;
+        font-size: max(16px, 2.5vmin);
+        margin: 10px 0;
+    }
+    
+    .instructions {
+        margin-top: 8px;
+        font-size: max(10px, 1.5vmin);
+    }
+    
+    .instruction-item {
+        font-size: max(10px, 1.4vmin);
+    }
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
@@ -455,6 +1121,87 @@ canvas {
     }
     50% {
         filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(150px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 2px 10px rgba(102, 204, 255, 0.6),
+                    inset 0 2px 10px rgba(102, 204, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(102, 204, 255, 1),
+                    inset 0 2px 15px rgba(102, 204, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 2px 10px rgba(102, 204, 255, 0.6),
+                    inset 0 2px 10px rgba(102, 204, 255, 0.3);
+    }
+}
+
+@keyframes ammoGainPulse {
+    0% {
+        background: linear-gradient(135deg, rgba(102, 102, 204, 0.1), rgba(153, 102, 255, 0.05));
+        transform: scale(1);
+    }
+    25% {
+        background: linear-gradient(135deg, rgba(102, 255, 102, 0.4), rgba(153, 255, 102, 0.3));
+        transform: scale(1.15);
+        box-shadow: 0 0 25px rgba(102, 255, 102, 0.8);
+    }
+    50% {
+        background: linear-gradient(135deg, rgba(102, 255, 102, 0.5), rgba(153, 255, 102, 0.4));
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(135deg, rgba(102, 102, 204, 0.1), rgba(153, 102, 255, 0.05));
+        transform: scale(1);
+    }
+}
+
+@keyframes ammoNumberPulse {
+    0%, 100% {
+        color: #66ccff;
+        text-shadow: 0 0 10px rgba(102, 204, 255, 0.8);
+    }
+    50% {
+        color: #66ff66;
+        text-shadow: 0 0 20px rgba(102, 255, 102, 1), 0 0 40px rgba(51, 255, 51, 0.8);
+        transform: scale(1.3);
+    }
+}
+
+@keyframes ammoIconSpin {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        filter: drop-shadow(0 0 8px rgba(102, 204, 255, 0.5));
+    }
+    25% {
+        transform: translateY(-5px) rotate(180deg) scale(1.2);
+        filter: drop-shadow(0 0 20px rgba(102, 255, 102, 1));
+    }
+    50% {
+        transform: translateY(0) rotate(360deg) scale(1.1);
+        filter: drop-shadow(0 0 25px rgba(102, 255, 102, 1));
+    }
+    75% {
+        transform: translateY(-3px) rotate(360deg) scale(1.05);
+        filter: drop-shadow(0 0 15px rgba(102, 204, 255, 0.8));
+    }
+    100% {
+        transform: translateY(0) rotate(360deg) scale(1);
+        filter: drop-shadow(0 0 8px rgba(102, 204, 255, 0.5));
     }
 }
 

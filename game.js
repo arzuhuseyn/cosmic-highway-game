@@ -29,32 +29,99 @@ class Game {
     }
 
     setupControls() {
+        // Get button references
+        this.upButton = document.getElementById('up-button');
+        this.downButton = document.getElementById('down-button');
+        
         // Keyboard controls
         window.addEventListener('keydown', (e) => {
             if (!this.gameActive) return;
             
             if (e.code === 'ArrowUp') {
                 this.ship.applyLift();
+                this.animateButton(this.upButton);
             } else if (e.code === 'ArrowDown') {
                 this.ship.applyDownForce();
+                this.animateButton(this.downButton);
             }
         });
 
-        // Touch controls
-        document.addEventListener('touchstart', (e) => {
+        // Mouse/touch events for Up button
+        this.upButton.addEventListener('mousedown', () => {
+            if (this.gameActive) {
+                this.ship.applyLift();
+                this.animateButton(this.upButton);
+            }
+        });
+        
+        this.upButton.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (this.gameActive) {
                 this.ship.applyLift();
+                this.animateButton(this.upButton);
+            }
+        }, { passive: false });
+        
+        // Mouse/touch events for Down button
+        this.downButton.addEventListener('mousedown', () => {
+            if (this.gameActive) {
+                this.ship.applyDownForce();
+                this.animateButton(this.downButton);
+            }
+        });
+        
+        this.downButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (this.gameActive) {
+                this.ship.applyDownForce();
+                this.animateButton(this.downButton);
             }
         }, { passive: false });
 
-        document.addEventListener('touchmove', (e) => {
+        // Prevent default touch behavior on canvas
+        this.canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
         }, { passive: false });
-
-        document.addEventListener('touchend', (e) => {
+        
+        // Touch/tap on canvas middle area for UP movement
+        this.canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            if (this.gameActive) {
+                this.ship.applyLift();
+                this.animateButton(this.upButton);
+            }
         }, { passive: false });
+        
+        // Mouse click on canvas middle area for UP movement (desktop support)
+        this.canvas.addEventListener('mousedown', (e) => {
+            if (this.gameActive) {
+                this.ship.applyLift();
+                this.animateButton(this.upButton);
+            }
+        });
+    }
+    
+    animateButton(button) {
+        // Add active class for animation
+        button.classList.add('button-pressed');
+        
+        // Remove the class after animation completes
+        setTimeout(() => {
+            button.classList.remove('button-pressed');
+        }, 150);
+    }
+    
+    animateAmmoGain(amount) {
+        // Get the ammo display elements
+        const ammoItem = document.querySelector('.score-item-nav:has(#bullet-count)');
+        
+        // Add animation class
+        ammoItem.classList.add('ammo-gain');
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            ammoItem.classList.remove('ammo-gain');
+        }, 600);
     }
 
     setupAutoShooting() {
@@ -91,8 +158,9 @@ class Game {
         // Update score display
         this.updateScoreDisplay();
         
-        // Hide game over screen
+        // Hide game over screen and show controls
         document.getElementById('game-over').style.display = 'none';
+        document.getElementById('game-controls').style.display = 'flex';
         
         // Restart animation
         this.animate();
@@ -166,12 +234,16 @@ class Game {
             if (obstacle.x + obstacle.width < this.ship.x && !obstacle.passed) {
                 obstacle.passed = true;
                 const hits = this.gameState.getObstacleHits(obstacle.id);
+                let bulletsAdded = 0;
                 if (hits > 0) {
-                    this.gameState.addBullets(hits * 4);
+                    bulletsAdded = hits * 4;
+                    this.gameState.addBullets(bulletsAdded);
                 } else {
-                    this.gameState.addBullets(20);
+                    bulletsAdded = 20;
+                    this.gameState.addBullets(bulletsAdded);
                 }
                 this.updateScoreDisplay();
+                this.animateAmmoGain(bulletsAdded);
             }
 
             // Remove obstacles that are off screen or fully destroyed
@@ -226,6 +298,9 @@ class Game {
         
         // Save high score
         this.gameState.saveHighScore();
+        
+        // Hide game controls
+        document.getElementById('game-controls').style.display = 'none';
         
         // Show game over screen
         const gameOverScreen = document.getElementById('game-over');

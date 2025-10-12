@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cosmic Highway Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,7 @@
         <div class="game-features">
             <div class="feature">
                 <div class="feature-icon">🎮</div>
-                <div class="feature-text">Arrow Keys</div>
+                <div class="feature-text">Tap or Keys</div>
             </div>
             <div class="feature">
                 <div class="feature-icon">💥</div>
@@ -70,6 +70,7 @@
         </div>
         
         <div class="instructions">
+            <div class="instruction-item">⬆️⬇️ Use buttons or arrow keys to move</div>
             <div class="instruction-item">⚠️ Avoid obstacles and enemy fire</div>
             <div class="instruction-item">🔫 Pass barriers to collect bullets</div>
         </div>
@@ -106,6 +107,22 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Game Controls -->
+<div id="game-controls">
+    <button id="up-button" class="control-button">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 10L30 25H10L20 10Z" fill="currentColor"/>
+        </svg>
+        <span class="control-label">UP</span>
+    </button>
+    <button id="down-button" class="control-button">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 30L10 15H30L20 30Z" fill="currentColor"/>
+        </svg>
+        <span class="control-label">DOWN</span>
+    </button>
 </div>
 
 <div id="game-over">
