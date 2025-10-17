@@ -2,14 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cosmic Highway Game</title>
+    <title>Cosmic Highway - Space Adventure Game</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Cosmic Highway - Space Adventure Game">
+    <meta name="description" content="Navigate through the cosmic void in this thrilling space adventure! Control your ship through treacherous asteroid fields, dodge enemy fire, and survive as long as possible.">
+    <meta name="keywords" content="space game, arcade game, cosmic highway, space adventure, asteroid game, browser game, HTML5 game">
+    <meta name="author" content="Cosmic Highway Game">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Viewport and Touch Settings -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- Google Fonts -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cosmic Highway">
+    <meta name="application-name" content="Cosmic Highway">
+    <meta name="msapplication-TileColor" content="#0a0a1a">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="msapplication-navbutton-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cosmic-highway-game.com/">
+    <meta property="og:title" content="Cosmic Highway - Space Adventure Game">
+    <meta property="og:description" content="Navigate through the cosmic void in this thrilling space adventure! Control your ship through treacherous asteroid fields, dodge enemy fire, and survive as long as possible.">
+    <meta property="og:image" content="/icons/og-image.png">
+    <meta property="og:site_name" content="Cosmic Highway">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cosmic-highway-game.com/">
+    <meta property="twitter:title" content="Cosmic Highway - Space Adventure Game">
+    <meta property="twitter:description" content="Navigate through the cosmic void in this thrilling space adventure! Control your ship through treacherous asteroid fields, dodge enemy fire, and survive as long as possible.">
+    <meta property="twitter:image" content="/icons/twitter-image.png">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/apple-touch-icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/apple-touch-icon-512x512.png">
+    
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/android-chrome-512x512.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/main-BUOCTPTX.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-BQiZr4ps.css">
+    
+    <!-- Stylesheets -->
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/icons/rocket.svg" as="image">
+    <link rel="preload" href="/icons/ship.svg" as="image">
+    <link rel="preload" href="/icons/ship2.svg" as="image">
+  <script type="module" crossorigin src="/assets/main-DQaooRXY.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-DyAponhQ.css">
 </head>
 <body>
 <canvas id="gameCanvas"></canvas>
@@ -596,7 +666,16 @@
     <div class="score-item">Final Score: <span id="final-score">0</span></div>
     <div class="score-item">High Score: <span id="end-high-score">0</span></div>
     <div id="countdown">Restarting in <span id="countdown-timer">5</span> seconds...</div>
-    <button id="restart-button">Play Again</button>
+    <div class="game-over-buttons">
+        <button id="restart-button" class="game-over-btn restart-btn">
+            <span class="button-icon">🔄</span>
+            <span>Play Again</span>
+        </button>
+        <button id="home-button" class="game-over-btn home-btn">
+            <span class="button-icon">🏠</span>
+            <span>Home</span>
+        </button>
+    </div>
 </div>
 
 <!-- Game Scripts -->
