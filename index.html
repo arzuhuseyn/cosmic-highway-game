@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <script type="module" crossorigin src="/assets/main-BUOCTPTX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-BQiZr4ps.css">
 </head>
 <body>
 <canvas id="gameCanvas"></canvas>
@@ -27,7 +28,7 @@
         <div class="particle"></div>
     </div>
     <div class="start-content">
-        <div class="title-wrapper">
+        <div class="start-header">
             <h1 class="game-title">
                 <span class="cosmic">COSMIC</span>
                 <span class="highway">HIGHWAY</span>
@@ -37,42 +38,491 @@
         
         <div class="rocket-container">
             <div class="rocket-glow"></div>
-            <img src="icon/rocket.svg" alt="Rocket" class="rocket-ship">
+            <img src="/icons/rocket.svg" alt="Rocket" class="rocket-ship">
             <div class="rocket-trail"></div>
             <div class="rocket-trail trail-2"></div>
             <div class="rocket-trail trail-3"></div>
         </div>
+
+        <div class="main-buttons">
+            <button id="start-button" class="pulse">
+                <span class="button-icon">▶</span>
+                <span>START MISSION</span>
+            </button>
+            
+            <button id="about-button" class="menu-btn">
+                <span class="button-icon">ℹ️</span>
+                <span>ABOUT GAME</span>
+            </button>
+            
+            <button id="settings-button" class="menu-btn">
+                <span class="button-icon">⚙️</span>
+                <span>SETTINGS</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- About Game Screen -->
+<div id="about-screen">
+    <div class="start-bg-overlay"></div>
+    <div class="start-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="about-content">
+        <div class="about-header">
+            <h2 class="about-title">ABOUT COSMIC HIGHWAY</h2>
+            <button id="back-from-about-button" class="back-btn">
+                <span class="button-icon">←</span>
+                <span>BACK</span>
+            </button>
+        </div>
         
-        <p class="tagline">
-            <span class="tagline-text">Navigate the cosmic void</span>
-            <span class="tagline-text">Destroy the barriers</span>
-            <span class="tagline-text">Survive the journey</span>
-        </p>
-        
-        <button id="start-button" class="pulse">
-            <span class="button-icon">▶</span>
-            <span>START MISSION</span>
-        </button>
-        
-        <div class="game-features">
-            <div class="feature">
-                <div class="feature-icon">🎮</div>
-                <div class="feature-text">Tap or Keys</div>
+        <div class="about-sections">
+            <!-- Game Description -->
+            <div class="about-section">
+                <h3 class="section-title">🎮 GAME OVERVIEW</h3>
+                <div class="about-text">
+                    <p>Navigate through the cosmic void in this thrilling space adventure! Control your ship through treacherous asteroid fields, dodge enemy fire, and survive as long as possible.</p>
+                    <p>Your mission is to destroy barriers, collect ammunition, and achieve the highest score possible in this fast-paced arcade-style game.</p>
+                </div>
             </div>
-            <div class="feature">
-                <div class="feature-icon">💥</div>
-                <div class="feature-text">Auto-Fire</div>
+            
+            <!-- How to Play -->
+            <div class="about-section">
+                <h3 class="section-title">🎯 HOW TO PLAY</h3>
+                <div class="instruction-list">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">⬆️⬇️</div>
+                        <div class="instruction-text">
+                            <strong>Movement:</strong> Use the UP/DOWN buttons or arrow keys to control your ship
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🔫</div>
+                        <div class="instruction-text">
+                            <strong>Shooting:</strong> Auto-fire is enabled by default, or use manual fire button
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">⚠️</div>
+                        <div class="instruction-text">
+                            <strong>Avoid:</strong> Stay clear of obstacles and enemy bullets to survive
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🎯</div>
+                        <div class="instruction-text">
+                            <strong>Destroy:</strong> Hit obstacles 5 times to destroy them completely
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">💫</div>
+                        <div class="instruction-text">
+                            <strong>Collect:</strong> Pass destroyed barriers to collect ammunition
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="feature">
-                <div class="feature-icon">🎯</div>
-                <div class="feature-text">5 Hits = Kill</div>
+            
+            <!-- Game Features -->
+            <div class="about-section">
+                <h3 class="section-title">✨ FEATURES</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <div class="feature-name">Multiple Controls</div>
+                        <div class="feature-desc">Touch, keyboard, and button controls</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💥</div>
+                        <div class="feature-name">Auto-Fire</div>
+                        <div class="feature-desc">Automatic shooting with manual override</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-name">Strategic Combat</div>
+                        <div class="feature-desc">5-hit system for destroying obstacles</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <div class="feature-name">Customizable</div>
+                        <div class="feature-desc">Adjustable difficulty and settings</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌟</div>
+                        <div class="feature-name">Visual Effects</div>
+                        <div class="feature-desc">Particles, engine glow, and screen shake</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-name">Performance</div>
+                        <div class="feature-desc">FPS counter and smooth gameplay</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tips -->
+            <div class="about-section">
+                <h3 class="section-title">💡 TIPS FOR SUCCESS</h3>
+                <div class="tips-list">
+                    <div class="tip-item">🎯 Focus on accuracy over speed when shooting</div>
+                    <div class="tip-item">⚡ Use quick movements to dodge incoming threats</div>
+                    <div class="tip-item">🔫 Manage your ammunition wisely</div>
+                    <div class="tip-item">🎮 Try different control methods to find your preference</div>
+                    <div class="tip-item">⚙️ Adjust difficulty settings to match your skill level</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Screen -->
+<div id="settings-screen">
+    <div class="start-bg-overlay"></div>
+    <div class="start-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2 class="settings-title">GAME SETTINGS</h2>
+            <button id="back-button" class="back-btn">
+                <span class="button-icon">←</span>
+                <span>BACK</span>
+            </button>
+        </div>
+        
+        <div class="settings-sections">
+            <!-- Difficulty Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🎯 DIFFICULTY</h3>
+                <div class="difficulty-options">
+                    <button class="difficulty-btn" data-difficulty="EASY">
+                        <div class="difficulty-icon">😊</div>
+                        <div class="difficulty-name">EASY</div>
+                        <div class="difficulty-desc">Relaxed gameplay</div>
+                    </button>
+                    <button class="difficulty-btn active" data-difficulty="NORMAL">
+                        <div class="difficulty-icon">😐</div>
+                        <div class="difficulty-name">NORMAL</div>
+                        <div class="difficulty-desc">Balanced challenge</div>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="HARD">
+                        <div class="difficulty-icon">😤</div>
+                        <div class="difficulty-name">HARD</div>
+                        <div class="difficulty-desc">Intense challenge</div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Gameplay Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🎮 GAMEPLAY</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🔫</span>
+                        <span>Auto-Fire</span>
+                        <span class="setting-desc">Automatically shoot bullets</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-fire-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🎯</span>
+                        <span>Manual Aim</span>
+                        <span class="setting-desc">Aim bullets with mouse/touch</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="manual-aim-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">💥</span>
+                        <span>Screen Shake</span>
+                        <span class="setting-desc">Shake screen on impacts</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="screen-shake-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Visual Section -->
+            <div class="settings-section">
+                <h3 class="section-title">✨ VISUALS</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">✨</span>
+                        <span>Particle Effects</span>
+                        <span class="setting-desc">Show explosion and trail effects</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="particles-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🌟</span>
+                        <span>Engine Glow</span>
+                        <span class="setting-desc">Ship engine visual effects</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="engine-glow-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">📊</span>
+                        <span>FPS Counter</span>
+                        <span class="setting-desc">Show frames per second</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fps-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Audio Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🔊 AUDIO</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🔊</span>
+                        <span>Master Volume</span>
+                        <span class="setting-desc">Overall game volume</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="master-volume" min="0" max="100" value="80" class="volume-slider">
+                        <span class="volume-value">80%</span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🎵</span>
+                        <span>Background Music</span>
+                        <span class="setting-desc">Play ambient music</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="music-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">💥</span>
+                        <span>Sound Effects</span>
+                        <span class="setting-desc">Play impact and action sounds</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="sfx-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
         
-        <div class="instructions">
-            <div class="instruction-item">⬆️⬇️ Use buttons or arrow keys to move</div>
-            <div class="instruction-item">⚠️ Avoid obstacles and enemy fire</div>
-            <div class="instruction-item">🔫 Pass barriers to collect bullets</div>
+        <div class="settings-footer">
+            <button id="reset-settings" class="reset-btn">
+                <span class="button-icon">🔄</span>
+                <span>RESET TO DEFAULTS</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Game Settings Overlay -->
+<div id="game-settings-overlay">
+    <div class="start-bg-overlay"></div>
+    <div class="start-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2 class="settings-title">GAME SETTINGS</h2>
+            <button id="resume-game-button" class="back-btn">
+                <span class="button-icon">▶</span>
+                <span>RESUME</span>
+            </button>
+        </div>
+        
+        <div class="settings-sections">
+            <!-- Difficulty Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🎯 DIFFICULTY</h3>
+                <div class="difficulty-options">
+                    <button class="difficulty-btn" data-difficulty="EASY">
+                        <div class="difficulty-icon">😊</div>
+                        <div class="difficulty-name">EASY</div>
+                        <div class="difficulty-desc">Relaxed gameplay</div>
+                    </button>
+                    <button class="difficulty-btn active" data-difficulty="NORMAL">
+                        <div class="difficulty-icon">😐</div>
+                        <div class="difficulty-name">NORMAL</div>
+                        <div class="difficulty-desc">Balanced challenge</div>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="HARD">
+                        <div class="difficulty-icon">😤</div>
+                        <div class="difficulty-name">HARD</div>
+                        <div class="difficulty-desc">Intense challenge</div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Gameplay Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🎮 GAMEPLAY</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🔫</span>
+                        <span>Auto-Fire</span>
+                        <span class="setting-desc">Automatically shoot bullets</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-auto-fire-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🎯</span>
+                        <span>Manual Aim</span>
+                        <span class="setting-desc">Aim bullets with mouse/touch</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-manual-aim-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">💥</span>
+                        <span>Screen Shake</span>
+                        <span class="setting-desc">Shake screen on impacts</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-screen-shake-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Visual Section -->
+            <div class="settings-section">
+                <h3 class="section-title">✨ VISUALS</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">✨</span>
+                        <span>Particle Effects</span>
+                        <span class="setting-desc">Show explosion and trail effects</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-particles-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🌟</span>
+                        <span>Engine Glow</span>
+                        <span class="setting-desc">Ship engine visual effects</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-engine-glow-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">📊</span>
+                        <span>FPS Counter</span>
+                        <span class="setting-desc">Show frames per second</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-fps-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Audio Section -->
+            <div class="settings-section">
+                <h3 class="section-title">🔊 AUDIO</h3>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🔊</span>
+                        <span>Master Volume</span>
+                        <span class="setting-desc">Overall game volume</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="game-master-volume" min="0" max="100" value="80" class="volume-slider">
+                        <span class="volume-value">80%</span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">🎵</span>
+                        <span>Background Music</span>
+                        <span class="setting-desc">Play ambient music</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-music-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-icon">💥</span>
+                        <span>Sound Effects</span>
+                        <span class="setting-desc">Play impact and action sounds</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="game-sfx-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -106,6 +556,15 @@
                 <div class="score-value" id="bullet-count">100</div>
             </div>
         </div>
+        
+        <div class="score-divider"></div>
+        
+        <button id="game-settings-button" class="game-settings-btn">
+            <div class="score-icon">⚙️</div>
+            <div class="score-details">
+                <div class="score-label">Settings</div>
+            </div>
+        </button>
     </div>
 </div>
 
@@ -123,6 +582,13 @@
         </svg>
         <span class="control-label">DOWN</span>
     </button>
+    <button id="fire-button" class="control-button fire-button" style="display: none;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 5L35 20L20 35L5 20L20 5Z" fill="currentColor"/>
+            <circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="control-label">FIRE</span>
+    </button>
 </div>
 
 <div id="game-over">
@@ -134,12 +600,5 @@
 </div>
 
 <!-- Game Scripts -->
-<script src="gameState.js"></script>
-<script src="entities/Ship.js"></script>
-<script src="entities/Obstacle.js"></script>
-<script src="entities/Bullet.js"></script>
-<script src="renderer.js"></script>
-<script src="game.js"></script>
-<script src="main.js"></script>
 </body>
 </html>
